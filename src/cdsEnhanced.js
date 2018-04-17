@@ -31,12 +31,18 @@ cdsEnhanced.getDisplayItem = function(item, nameOnly) {
         }
     }
 
-    if(itemDisplayName.indexOf('<#') !== -1 && itemDisplayName.indexOf('#>') !== -1) {
+    while(itemDisplayName.indexOf('<#') !== -1 && itemDisplayName.indexOf('#>') !== -1) {
         popOutInfo = itemDisplayName.split("<#")[1].split("#>")[0];
-        popOutSplit = popOutInfo.split("#");
-        popOutName = popOutSplit[1];
-        popOutText = popOutSplit[0];
-        popoutElement = '<span onclick="cwAPI.customFunction.openDiagramPopoutWithID(' + item.object_id + ',\'' + popOutName + '\');">' + popOutText + "</span>";
+        if(popOutInfo.indexOf('#') === -1) {
+            popOutName = popOutInfo;
+            popOutText = '<i class="fa fa-external-link" aria-hidden="true"></i>';
+        } else {
+            popOutSplit = popOutInfo.split("#");
+            popOutName = popOutSplit[1];
+            popOutText = popOutSplit[0];   
+        }
+
+        popoutElement = '<span class="cdsEnhancedDiagramPopOutIcon" onclick="cwAPI.customFunction.openDiagramPopoutWithID(' + item.object_id + ',\'' + popOutName + '\');">' + popOutText + "</span>";
         itemDisplayName = itemDisplayName.replace('<#' + popOutInfo + '#>',popoutElement);
     }
 
