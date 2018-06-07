@@ -31,7 +31,7 @@ cdsEnhanced.getDisplayItem = function(item, nameOnly) {
         }
     }
 
-    if(popOutDisableByDefault && itemDisplayName.indexOf('<#') === -1 && itemDisplayName.indexOf('<@') === -1 ) {
+    if(popOutEnableByDefault && itemDisplayName.indexOf('<#') === -1 && itemDisplayName.indexOf('<@') === -1 ) {
         popOutText = '<i class="fa fa-external-link" aria-hidden="true"></i>';
         popOutName = item.objectTypeScriptName + "_diagram_popout";
         if(cwAPI.ViewSchemaManager.pageExists(popOutName) === true) {
