@@ -3,7 +3,7 @@
 (function(cwApi, $) {
   'use strict';
 
-
+var popOutEnableByDefault = true;
 var cdsEnhanced = {};
 
 cdsEnhanced.getDisplayItem = function(item, nameOnly) {
@@ -31,11 +31,14 @@ cdsEnhanced.getDisplayItem = function(item, nameOnly) {
         }
     }
 
-    if(itemDisplayName.indexOf('<#') === -1 && itemDisplayName.indexOf('<@') === -1 ) {
+    if(popOutDisableByDefault && itemDisplayName.indexOf('<#') === -1 && itemDisplayName.indexOf('<@') === -1 ) {
         popOutText = '<i class="fa fa-external-link" aria-hidden="true"></i>';
         popOutName = item.objectTypeScriptName + "_diagram_popout";
-        popoutElement = ' <span class="cdsEnhancedDiagramPopOutIcon" onclick="cwAPI.customFunction.openDiagramPopoutWithID(' + item.object_id + ',\'' + popOutName + '\');">' + popOutText + "</span>";
-        itemDisplayName = itemDisplayName + popoutElement
+        if(cwAPI.ViewSchemaManager.pageExists(popOutName) === true) {
+            popoutElement = ' <span class="cdsEnhancedDiagramPopOutIcon" onclick="cwAPI.customFunction.openDiagramPopoutWithID(' + item.object_id + ',\'' + popOutName + '\');">' + popOutText + "</span>";
+            itemDisplayName = itemDisplayName + popoutElement;
+        }
+
     } else {
         while(itemDisplayName.indexOf('<#') !== -1 && itemDisplayName.indexOf('#>') !== -1) {
             popOutInfo = itemDisplayName.split("<#")[1].split("#>")[0];
@@ -48,7 +51,7 @@ cdsEnhanced.getDisplayItem = function(item, nameOnly) {
                 popOutText = popOutSplit[0];   
             }
 
-            popoutElement = '<span class="cdsEnhancedDiagramPopOutIcon" onclick="event.preventDefault(); cwAPI.customFunction.openDiagramPopoutWithID(' + item.object_id + ',\'' + popOutName + '\');">' + popOutText + "</span>";
+            popoutElement = '<span class="cdsEnhancedDiagramPopOutIcon" onclick="cwAPI.customFunction.openDiagramPopoutWithID(' + item.object_id + ',\'' + popOutName + '\');">' + popOutText + "</span>";
         itemDisplayName = itemDisplayName.replace('<#' + popOutInfo + '#>',popoutElement);
         }
     }
