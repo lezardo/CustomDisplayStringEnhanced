@@ -1,7 +1,7 @@
 {
   "name": "customDisplayStringEnhanced",
   "description": "Allow you make a more complex beautiful custom display string (popout, split link...)",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "customDisplayStringEnhanced.js",
   "scripts": {
     "test": ""
