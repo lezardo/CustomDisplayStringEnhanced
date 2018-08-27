@@ -50,9 +50,12 @@ cdsEnhanced.getDisplayItem = function(item, nameOnly) {
                 popOutName = popOutSplit[1];
                 popOutText = popOutSplit[0];   
             }
-
-            popoutElement = '<span class="cdsEnhancedDiagramPopOutIcon" onclick="cwAPI.customFunction.openDiagramPopoutWithID(' + item.object_id + ',\'' + popOutName + '\');">' + popOutText + "</span>";
-        itemDisplayName = itemDisplayName.replace('<#' + popOutInfo + '#>',popoutElement);
+            if(cwAPI.ViewSchemaManager.pageExists(popOutName) === true) {
+                popoutElement = '<span class="cdsEnhancedDiagramPopOutIcon" onclick="cwAPI.customFunction.openDiagramPopoutWithID(' + item.object_id + ',\'' + popOutName + '\');">' + popOutText + "</span>";
+            } else {
+                popoutElement = "";
+            }
+            itemDisplayName = itemDisplayName.replace('<#' + popOutInfo + '#>',popoutElement);
         }
     }
 
