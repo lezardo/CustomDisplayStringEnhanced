@@ -35,7 +35,7 @@ cdsEnhanced.getDisplayItem = function(item, nameOnly) {
         popOutText = '<i class="fa fa-external-link" aria-hidden="true"></i>';
         popOutName = cwApi.replaceSpecialCharacters(item.objectTypeScriptName) + "_diagram_popout";
         if(cwAPI.ViewSchemaManager.pageExists(popOutName) === true) {
-            popoutElement = ' <span class="cdsEnhancedDiagramPopOutIcon" onclick="cwAPI.customFunction.openDiagramPopoutWithID(' + item.object_id + ',\'' + popOutName + '\');">' + popOutText + "</span>";
+            popoutElement = ' <span class="cdsEnhancedDiagramPopOutIcon" onclick="cwAPI.customFunction.openDiagramPopoutWithID(' + item.object_id + ',\'' + popOutName + '\', event);">' + popOutText + "</span>";
             itemDisplayName = itemDisplayName + popoutElement;
         }
 
@@ -71,8 +71,11 @@ cdsEnhanced.getDisplayItem = function(item, nameOnly) {
 };
 
 if(cwAPI.customFunction === undefined) cwAPI.customFunction = {};
-cwApi.customFunction.openDiagramPopoutWithID = function(id,popOutName) {
+cwApi.customFunction.openDiagramPopoutWithID = function(id,popOutName, evt) {
     var obj = {};
+    if (evt){
+        evt.preventDefault();
+    }
     obj.object_id = id;
     cwAPI.cwDiagramPopoutHelper.openDiagramPopout(obj,popOutName);
 
