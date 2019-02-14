@@ -31,12 +31,12 @@ if you want a specific pop out use that syntax
 
 ### URL to the object Page : 
 
-If you put <@ @>, only the part inside will be clickable on drive you to the objectPage
+If you put <@ @>, only the part inside will be clickable and drive you to the objectPage
 
 ### Diagram pop-out :
 
-If you put <#nameofthePopOut #>, this will create an icon, when clicking it will open the popOut
-
+If you put <#nameofthePopOut#>, this will create an icon, when clicking it will open the popOut
+If you put <#HTML#nameofthePopOut#>, this will create an html element, when clicking it will open the popOut
 ### Disable the automatic icon
 
 Go into src\cdsEnhanced.js
