@@ -36,7 +36,7 @@ cdsEnhanced.getDisplayItem = function(item, nameOnly) {
         popOutName = cwApi.replaceSpecialCharacters(item.objectTypeScriptName) + "_diagram_popout";
         if(cwAPI.ViewSchemaManager.pageExists(popOutName) === true) {
             popoutElement = ' <span class="cdsEnhancedDiagramPopOutIcon" onclick="cwAPI.customFunction.openDiagramPopoutWithID(' + item.object_id + ',\'' + popOutName + '\', event);">' + popOutText + "</span>";
-            itemDisplayName = itemDisplayName + popoutElement;
+            itemDisplayName = popoutElement + "  " + itemDisplayName ;
         }
 
     } else {
@@ -58,8 +58,9 @@ cdsEnhanced.getDisplayItem = function(item, nameOnly) {
             itemDisplayName = itemDisplayName.replace('<#' + popOutInfo + '#>',popoutElement);
         }
     }
-
     
+
+    itemDisplayName = '<a class="obj" >' +  itemDisplayName + "</a>";
 
 
     $('span').attr('data-children-number');
@@ -80,6 +81,62 @@ cwApi.customFunction.openDiagramPopoutWithID = function(id,popOutName, evt) {
     cwAPI.cwDiagramPopoutHelper.openDiagramPopout(obj,popOutName);
 
 };
+
+ cwBehaviours.cwAccordion.prototype.implementSelector = function(searching) {
+    var that, cwAccordionChildObject, aTag, cssClass, html;
+    that = this;
+
+    $('div.' + that.selector).each(function(i, div) {
+      /*jslint unparam:true*/
+
+      function addPlusOrMinusImage() {
+        aTag = $(div).children('a.obj');
+
+        //Dont add any buttons if no content inside
+        if (that.hasChildren(div)) {
+          if (!that.collapseByDefault) {
+            cssClass = that.expand;
+          } else {
+            cssClass = that.collapse;
+          }
+          //Check if Set Link is checked or not checked
+          if (aTag.length > 0) {
+            aTag.before(cssClass);
+          } else {
+            $(div).children('span').before(cssClass);
+          }
+        }
+      }
+
+      $(div).next().find('ul:not(:has(li))').remove();
+
+
+      html = $(div).next().html();
+      if (!cwApi.isUndefined(html) && html.length === 0) {
+        $(div).next().remove();
+      }
+      if (!cwApi.isUndefined(that.removeIfEmptyChildren) && that.removeIfEmptyChildren && !searching) {
+        // if there is no children
+        if ($(div).parent().children().length === 1) {
+          $(div).parent().remove();
+        }
+      }
+      if ($(div).next().find('.cw-visible').length > 0) {
+        //$(div).children('a').before(that.collapse);
+        addPlusOrMinusImage();
+
+        cwAccordionChildObject = new cwBehaviours.cwAccordionChild(this, that.collapseClass, that.expandClass);
+
+        $(div).click(cwAccordionChildObject.mouseClick.bind(cwAccordionChildObject));
+        $(div).hover(cwAccordionChildObject.hoverMethod.bind(cwAccordionChildObject));
+
+      } else {
+        //$(div).children('a').before(that.expand);
+        addPlusOrMinusImage();
+      }
+    });
+  };
+
 
 cwApi.cwLayouts.CwLayout.prototype.getDisplayItem = cdsEnhanced.getDisplayItem;
 
